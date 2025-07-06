@@ -1,4 +1,4 @@
-from src.sample_class import *
+from src.sample_class import SampleClass
 
 
 class TestClass:
