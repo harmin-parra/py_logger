@@ -29,7 +29,7 @@ def logger(func):
             if nested_calls != 0 and not exiting:
                 logging.log(LEVEL, '')
             exiting = False
-            logging.log(LEVEL, f"{indent}CALLING %s.%s", func.__module__, func.__qualname__)
+            logging.log(LEVEL, "%sCALLING %s.%s", indent, func.__module__, func.__qualname__)
             if (
                 is_self_parameter(func) or
                 str(type(resolve_qualname(func.__module__, func.__qualname__))) == "<class 'method'>"
@@ -43,19 +43,19 @@ def logger(func):
             for key, value in kwargs.items():
                 params.append("{} = {}".format(key, truncate(value)))
             if len(params) > 0:
-                logging.log(LEVEL, f"{indent}ARGUMENTS: {params}")
+                logging.log(LEVEL, "%sARGUMENTS: %s", indent, params)
             try:
                 resp = func(*args, **kwargs)
                 if resp is not None:
-                    logging.log(LEVEL, f"{indent}RETURNING: {truncate(resp)}")
-                logging.log(LEVEL, f"{indent}EXITING %s.%s", func.__module__, func.__qualname__)
+                    logging.log(LEVEL, "%sRETURNING: %s", indent, truncate(resp))
+                logging.log(LEVEL, "%sEXITING %s.%s", indent, func.__module__, func.__qualname__)
                 logging.log(LEVEL, '')
                 exiting = True
                 nested_calls = nested_calls - 1
                 return resp
             except Exception as error:
-                logging.log(LEVEL, f"{indent}THROWING %s", repr(error))
-                logging.log(LEVEL, f"{indent}EXITING %s.%s", func.__module__, func.__qualname__)
+                logging.log(LEVEL, "%sTHROWING %s", indent, repr(error))
+                logging.log(LEVEL, "%sEXITING %s.%s", indent, func.__module__, func.__qualname__)
                 logging.log(LEVEL, '')
                 exiting = True
                 nested_calls = nested_calls - 1
