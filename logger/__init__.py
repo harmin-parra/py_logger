@@ -20,7 +20,7 @@ if 'PYTEST_LOGGER' in os.environ.keys() and os.environ['PYTEST_LOGGER'].lower() 
 
 
 def logger(func):
-    #@wraps(func)
+    @wraps(func)
     def wrapper(*args, **kwargs):
         if DEBUG:
             global nested_calls, exiting
