@@ -5,12 +5,13 @@ class SampleClass:
 
     @logger
     def __init__(self, x):
-        self.x = x
+        self._x = x
         print(f"calling __init__({x})")
 
     @logger
     def method_no_args(self):
         print("calling method_no_args")
+        return self._x
 
     @logger
     def method_args(self, x, y):
@@ -48,3 +49,13 @@ class SampleClass:
     def method_class(cls, x):
         print(f"calling method_class({x})")
         return cls(x)
+
+    @property
+    @logger
+    def _x(self):
+        return self.x
+
+    @_x.setter
+    @logger
+    def _x(self, value):
+        self.x = value
